@@ -18,7 +18,7 @@ This project implements a simple car obstacle avoidance game on the Altera DE2-1
 
 ## Preparation and Planning
 
-The team identified nine major sections required for the final project:
+We identified nine major sections required for the final project:
 1. Start Process / Begin Game
 2. Take User Input
 3. Update Car Position
@@ -30,7 +30,7 @@ The team identified nine major sections required for the final project:
 
 ## Buttons and Position Array
 
-This module handles user inputs for moving the car left or right using the push buttons on the DE2-115 board. To mitigate the mechanical bouncing of the buttons, a debouncing mechanism is implemented. The debouncing code was adapted from [FPGA 4 Fun](http://www.fpga4fun.com/Debouncer2.html).
+This module handles user inputs for moving the car left or right using the push buttons on the DE2-115 board. To mitigate the mechanical bouncing of the buttons, a debouncing mechanism is implemented. 
 
 ### Debouncing Code
 ```verilog
