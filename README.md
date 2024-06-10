@@ -89,3 +89,38 @@ always @ (posedge clk) begin
     endcase
 end
 endmodule
+
+##VGA Output
+For the visual aspect of the game, VGA output is used instead of LEDs. The DE2-115 board's ADV7123 video DAC takes an 8-bit signal for red, green, and blue, and synchronizes it with horizontal and vertical sync signals. A phase lock loop (PLL) is used to create the necessary clock frequency for the desired resolution. The VGA module takes in the clock, dot rate, and graphics array and outputs the necessary VGA inputs.
+
+###VGA Output Code
+module vgaout(sw,clk,R,G,B,vga_clk,sync_n,blank_n,vga_HS,vga_VS);
+input [2:0]sw;
+input clk;
+output [7:0] R,G,B;
+output vga_clk,sync_n,blank_n,vga_HS,vga_VS;
+reg [7:0] R_temp,G_temp,B_temp;
+wire write, test;
+wire xpixel,ypixel;
+clksrc clksrc1(clk, vga_clk); //PLL that is used to create 40MHz clock needed for resolution
+
+vgaSync vgaSync1(.clk(clk), .pixel_tick(vga_clk),.hsync(vga_HS),.vsync(vga_VS),.xpixel(xpixel),.ypixel(ypixel), .video_on(write));
+
+assign sync_n = 1; //vga_HS^vga_VS; from DAC manual, the sync and blank are used to help with the sync of RGB. They can just 1 causing RGB to always be on.
+assign blank_n = 1; //write;
+
+//would be input from graphics array where to put objects
+assign test = 1;//((xpixel>0) && (xpixel<1055));
+
+always @ (posedge clk) begin
+    R_temp = {8{(sw[0] & write & test)}};
+    G_temp = {8{(sw[1] & write & test)}};
+    B_temp = {8{(sw[2] & write & test)}};
+end
+
+assign R = R_temp;
+assign G = G_temp;
+assign B = B_temp;
+
+endmodule
+
