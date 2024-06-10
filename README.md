@@ -88,9 +88,18 @@ always @ (posedge clk) begin
         end
     endcase
 end
-endmodule       
+endmodule
+```
 
 ## VGA Output
 
 For the visual aspect of the game, VGA output is used instead of LEDs. The DE2-115 board's ADV7123 video DAC takes an 8-bit signal for red, green, and blue, and synchronizes it with horizontal and vertical sync signals. A phase lock loop (PLL) is used to create the necessary clock frequency for the desired resolution. The VGA module takes in the clock, dot rate, and graphics array and outputs the necessary VGA inputs.
+
+## VGA Graphics Array
+
+This module converts the position and obstacle arrays into an array readable by the VGA module to display the game. It uses the x and y pixel counters to designate rectangular areas for specific colors.
+
+## Pseudo Random Obstacle Generator
+
+A module that creates a random three-bit number (excluding 3'b111) using a counter driven by a PLL 40 MHz clock. This ensures the obstacles are generated in a seemingly random order.
 
