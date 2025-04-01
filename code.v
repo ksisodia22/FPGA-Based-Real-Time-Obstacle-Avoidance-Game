@@ -48,17 +48,17 @@ parameter case0 = 3'b000;
 // heartbeat == 1 is implied
 if (TotalAr[0:2] == case0)
 		begin 
-	//if first/top of array is empty gen new obs and push orig obsAr "down"
+	
 	// implies each obstacle is seperated by an empty horizontal line between obstacles	
-					tempArray[3:17] <= TotalAr[0:14];
-					tempArray[0:2] = outOb;
-					TotalAr[0:17] = tempArray[0:17];  // assign individually????	
+			tempArray[3:17] <= TotalAr[0:14];      // shift down all 5 rows
+			tempArray[0:2] = outOb;               // insert new obstacle at top
+			TotalAr[0:17] = tempArray[0:17];       // update TotalAr	
 			 
 		end 
 else // if (ObsAr[0:2] != 3'b000); ----> set the top to 000 and push rest of array
 	begin 
-		tempArray[3:17] <= TotalAr[0:14];
-		tempArray[0:2] = 3'b000;
+		tempArray[3:17] <= TotalAr[0:14];        // shift down as usual
+		tempArray[0:2] = 3'b000;                 // but insert a blank row instead
 		TotalAr[0:17] = tempArray[0:17];   // assign individually???
 	end
 end
